@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Otsikko = (kurssi) => {
+const Otsikko = (props) => {
   
   return (
-    <h1>{kurssi.kurssi.nimi}</h1>
+    <h1>{props.kurssi.nimi}</h1>
   )
 }
 
-const Sisalto = (kurssi) => {
-    const osat = kurssi.kurssi.osat
+const Sisalto = (props) => {
+    const osat = props.kurssi.osat
     return (
         <div>
             <Osa osa = {osat[0]}/>
@@ -19,14 +19,14 @@ const Sisalto = (kurssi) => {
     )
   }
 
-  const Osa = (osa) => {
+  const Osa = (props) => {
     return (
-        <p>{osa.osa.nimi} {osa.osa.tehtavia}</p>
+        <p>{props.osa.nimi} {props.osa.tehtavia}</p>
     )
   }
 
-  const Yhteensa = (kurssi) => {
-    const osat = kurssi.kurssi.osat
+  const Yhteensa = (props) => {
+    const osat = props.kurssi.osat
     return (
         <p>yhteensä {osat[0].tehtavia + osat[1].tehtavia + osat[2].tehtavia} tehtävää</p>
     )
