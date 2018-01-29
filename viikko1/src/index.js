@@ -63,6 +63,10 @@ const App = () => { //Ensimmäinen tehtäväsetti
   document.getElementById('root')
 )*/
 
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
 class App extends React.Component {
   //tehtäväsetti 2
     constructor(props) {
@@ -82,9 +86,11 @@ class App extends React.Component {
             <button onClick={()=> this.setState({neutral: this.state.neutral + 1})}>Neutraali</button>
             <button onClick={()=> this.setState({bad: this.state.bad + 1})}>Huono</button>
             <h2>Statistiikka</h2>
-            <div>Hyvä: {this.state.good}</div>
-            <div>Neutraali: {this.state.neutral}</div>
-            <div>Huono: {this.state.bad}</div>
+            <p>Hyvä: {this.state.good}</p>
+            <p>Neutraali: {this.state.neutral}</p>
+            <p>Huono: {this.state.bad}</p>
+            <p>Keskiarvo: {round((this.state.bad * -1 + this.state.good * 1) / (this.state.good + this.state.neutral + this.state.bad), 2)} </p>
+            <p>Positiivisia: {round((this.state.good / (this.state.good + this.state.neutral + this.state.bad))*100, 2)}%</p>
           </div>
         )
       }
