@@ -63,6 +63,34 @@ const App = () => { //Ensimmäinen tehtäväsetti
   document.getElementById('root')
 )*/
 
+const Button = ({clickfunction, title}) => {
+  return (    
+    <button onClick={clickfunction}>{title}</button>
+  )
+}
+
+const Statistics = (props) => {
+  if (props.state.good === 0 && props.state.neutral === 0 && props.state.bad === 0){
+    return (<p>Palautteita ei ole annettu</p>)
+  }else{
+  return (
+    <div>
+      <h2>{props.title}</h2>
+      <Statistic title="Hyvä" value={props.state.good}/>
+      <Statistic title="Neutraali" value={props.state.good}/>
+      <Statistic title="Huono" value={props.state.good}/>
+      <Statistic title="Keskiarvo" value={round((props.state.bad * -1 + props.state.good * 1) / (props.state.good + props.state.neutral + props.state.bad), 2)}/>
+      <Statistic title="Positiivisia" value={round((props.state.good / (props.state.good + props.state.neutral + props.state.bad))*100, 2)+"%"}/>
+    </div>
+  )}
+}
+
+const Statistic = ({value, title}) =>{
+  return (
+    <p>{title}: {value}</p>
+  )
+}
+
 function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
@@ -77,20 +105,19 @@ class App extends React.Component {
           bad: 0
         }
       }
-    
+
+      addToState = (name) => {
+        return () => { this.setState({[name]: this.state[name] + 1}) }
+      }
+      
       render() {
         return (
           <div>
             <h2>Anna palautetta</h2>
-            <button onClick={()=> this.setState({good: this.state.good + 1})}>Hyvä</button>
-            <button onClick={()=> this.setState({neutral: this.state.neutral + 1})}>Neutraali</button>
-            <button onClick={()=> this.setState({bad: this.state.bad + 1})}>Huono</button>
-            <h2>Statistiikka</h2>
-            <p>Hyvä: {this.state.good}</p>
-            <p>Neutraali: {this.state.neutral}</p>
-            <p>Huono: {this.state.bad}</p>
-            <p>Keskiarvo: {round((this.state.bad * -1 + this.state.good * 1) / (this.state.good + this.state.neutral + this.state.bad), 2)} </p>
-            <p>Positiivisia: {round((this.state.good / (this.state.good + this.state.neutral + this.state.bad))*100, 2)}%</p>
+            <Button clickfunction={this.addToState("good")} title="Hyvä"/>
+            <Button clickfunction={this.addToState("neutral")} title="Neutraali"/>
+            <Button clickfunction={this.addToState("bad")} title="Huono"/>
+            <Statistics state={this.state} title="Statistiikka"/>
           </div>
         )
       }
