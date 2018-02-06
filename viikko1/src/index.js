@@ -76,18 +76,20 @@ const Statistics = (props) => {
   return (
     <div>
       <h2>{props.title}</h2>
-      <Statistic title="Hyvä" value={props.state.good}/>
-      <Statistic title="Neutraali" value={props.state.good}/>
-      <Statistic title="Huono" value={props.state.good}/>
-      <Statistic title="Keskiarvo" value={round((props.state.bad * -1 + props.state.good * 1) / (props.state.good + props.state.neutral + props.state.bad), 2)}/>
-      <Statistic title="Positiivisia" value={round((props.state.good / (props.state.good + props.state.neutral + props.state.bad))*100, 2)+"%"}/>
+      <table><tbody>
+        <Statistic title="Hyvä" value={props.state.good}/>
+        <Statistic title="Neutraali" value={props.state.good}/>
+        <Statistic title="Huono" value={props.state.good}/>
+        <Statistic title="Keskiarvo" value={round((props.state.bad * -1 + props.state.good * 1) / (props.state.good + props.state.neutral + props.state.bad), 2)}/>
+        <Statistic title="Positiivisia" value={round((props.state.good / (props.state.good + props.state.neutral + props.state.bad))*100, 2)+"%"}/>
+      </tbody></table>
     </div>
   )}
 }
 
 const Statistic = ({value, title}) =>{
   return (
-    <p>{title}: {value}</p>
+    <tr><td>{title}:</td><td>{value}</td></tr>
   )
 }
 
