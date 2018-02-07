@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+//Ensimmäinen tehtäväsetti
+
 /*const Otsikko = (props) => {
   
   return (
@@ -32,7 +34,7 @@ const Sisalto = (props) => {
     )
   }
 
-const App = () => { //Ensimmäinen tehtäväsetti
+const App = () => {
     const kurssi = {
         nimi: 'Half Stack -sovelluskehitys',
         osat: [
@@ -63,6 +65,8 @@ const App = () => { //Ensimmäinen tehtäväsetti
   document.getElementById('root')
 )*/
 
+//Toinen tehtäväsetti
+/*
 const Button = ({clickfunction, title}) => {
   return (    
     <button onClick={clickfunction}>{title}</button>
@@ -98,7 +102,7 @@ function round(value, decimals) {
 }
 
 class App extends React.Component {
-  //tehtäväsetti 2
+
     constructor(props) {
         super(props)
         this.state = {
@@ -124,9 +128,61 @@ class App extends React.Component {
         )
       }
     }
+
     
     ReactDOM.render(
       <App />,
+      document.getElementById('root')
+    )*/
+    const MostVoted = ({anecdotes, votes}) => {
+      const index = votes.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+      return (
+        <p>{anecdotes[index]}<br/>
+        with {votes[index]} votes
+        </p>
+      )
+    }
+
+    class App extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          selected: 0,
+          votes: new Array(anecdotes.length).fill(0)
+        }
+      }
+      voteSelected = () => {
+        const kopio = [...this.state.votes]
+        kopio[this.state.selected] += 1
+        this.setState({votes: kopio});
+      }    
+
+      render() {
+        return (
+          <div>
+            {this.props.anecdotes[this.state.selected]}<br/>
+            Votes: {this.state.votes[this.state.selected]}<br/>
+            <button onClick={() => {this.voteSelected()}}>Vote</button><br/>
+            <button onClick={() => {this.setState({selected:  Math.floor(Math.random() * this.props.anecdotes.length)})}}>Next anecdote</button>
+            <br/><br/>
+            Most votes:<br/>
+            <MostVoted anecdotes={this.props.anecdotes} votes={this.state.votes}/>
+          </div>
+        )
+      }
+    }
+    
+    const anecdotes = [
+      'If it hurts, do it more often',
+      'Adding manpower to a late software project makes it later!',
+      'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+      'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+      'Premature optimization is the root of all evil.',
+      'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+    ]
+    
+    ReactDOM.render(
+      <App anecdotes={anecdotes} />,
       document.getElementById('root')
     )
 
