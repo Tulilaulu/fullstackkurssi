@@ -52,6 +52,8 @@ ReactDOM.render(
 )
 */
 
+//Toinen tehtäväsetti
+/*
 import Filter from './components/Filter';
 import Person from './components/Person';
 
@@ -134,6 +136,67 @@ class App extends React.Component {
         </form>
         <h2>Numerot</h2>
         {persons.map(person => <Person key={person.id} person={person} />)}
+      </div>
+    )
+  }
+}
+
+export default App
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+)
+*/
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        countries: [],
+        search: ''
+      }
+  }
+
+  componentDidMount(){
+    axios.get('https://restcountries.eu/rest/v2/all').then(response => {
+      console.log(response.data[0])
+      this.setState({ countries: response.data })
+    })    
+  }
+
+  handleSearchChange = (event) => {
+    this.setState({ search: event.target.value })
+  }
+  
+  render() {
+    const countries =
+    this.state.search === '' ?
+      this.state.countries :
+      this.state.countries.filter(country => country.name.toLowerCase().includes(this.state.search.toLowerCase()) === true)
+    let countriesHTML = "too many results";
+    if (countries.length < 11 && countries.length > 1) {
+      countriesHTML = countries.map(country => <p key={country.name}>{country.name}</p>)
+    } else if (countries.length === 1){
+      const country = countries[0]
+      countriesHTML = <div><h1>{country.name}</h1>
+        <p>Capital: {country.capital}</p>
+        <p>Population: {country.population}</p>
+        <img style={{width: '200px'}} src={country.flag}/></div>;
+    } else if (countries.length === 0){
+      countriesHTML = "no results"
+    }
+    return (
+      <div>
+        <form>
+        <p>Search:</p> 
+        <input
+            value={this.state.search}
+            onChange={this.handleSearchChange}/>
+        </form>
+        <br/>
+        {countriesHTML}
       </div>
     )
   }
