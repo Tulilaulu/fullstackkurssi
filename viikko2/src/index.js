@@ -170,6 +170,10 @@ class App extends React.Component {
     this.setState({ search: event.target.value })
   }
   
+  countryClicked = (event) => {
+    this.setState({ search: event.target.innerText })
+  }
+
   render() {
     const countries =
     this.state.search === '' ?
@@ -177,7 +181,7 @@ class App extends React.Component {
       this.state.countries.filter(country => country.name.toLowerCase().includes(this.state.search.toLowerCase()) === true)
     let countriesHTML = "too many results";
     if (countries.length < 11 && countries.length > 1) {
-      countriesHTML = countries.map(country => <p key={country.name}>{country.name}</p>)
+      countriesHTML = countries.map(country => <p key={country.name} onClick={this.countryClicked}>{country.name}</p>)
     } else if (countries.length === 1){
       const country = countries[0]
       countriesHTML = <div><h1>{country.name}</h1>
