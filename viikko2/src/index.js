@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import axios from 'axios'
 
 //Ensimmäinen tehtäväsetti
 /*
@@ -58,16 +59,18 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        persons: [
-          { name: 'Arto Hellas', number: '040-123456' },
-          { name: 'Martti Tienari', number: '040-123456' },
-          { name: 'Arto Järvinen', number: '040-123456' },
-          { name: 'Lea Kutvonen', number: '040-123456' }
-        ],
+        persons: [],
         newName: '',
         newNumber: '',
         filter: ''
       }
+  }
+
+  componentDidMount(){
+    axios.get('http://localhost:3001/persons').then(response => {
+      console.log('promise fulfilled')
+      this.setState({ persons: response.data })
+    })    
   }
 
   handleNameChange = (event) => {
@@ -130,7 +133,7 @@ class App extends React.Component {
             </div>
         </form>
         <h2>Numerot</h2>
-        {persons.map(person => <Person key={person.name} person={person} />)}
+        {persons.map(person => <Person key={person.id} person={person} />)}
       </div>
     )
   }
